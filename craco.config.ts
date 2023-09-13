@@ -29,11 +29,11 @@ module.exports = {
       }
       if (webpackConfig.plugins) {
         // 确保 plugins 数组已定义
-        webpackConfig.plugins.forEach((plugin: any) => {
-          if (plugin instanceof HtmlWebpackPlugin) {
-            plugin.options.title = 'Your Site Title' // 设置站点标题
-          }
-        })
+        // webpackConfig.plugins.forEach((plugin: any) => {
+        //   if (plugin instanceof HtmlWebpackPlugin) {
+        //     plugin.options.title = 'Your Site Title' // 设置站点标题
+        //   }
+        // })
       }
       // webpackConfig.pure_funcs = ["console.log"];
       return webpackConfig

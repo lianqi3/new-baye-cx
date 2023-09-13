@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
@@ -10,7 +10,6 @@ import 'lib-flexible'
 import App from './App'
 import './global.css'
 import '@/language'
-import store from '@/store'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
@@ -22,13 +21,11 @@ const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
 const Web3ReactProviderReloaded = createWeb3ReactRoot('anotherOne')
 
 root.render(
-  <Provider store={store}>
-    <HashRouter>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <Web3ReactProviderReloaded getLibrary={getLibrary}>
-          <App />
-        </Web3ReactProviderReloaded>
-      </Web3ReactProvider>
-    </HashRouter>
-  </Provider>,
+  <HashRouter>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <Web3ReactProviderReloaded getLibrary={getLibrary}>
+        <App />
+      </Web3ReactProviderReloaded>
+    </Web3ReactProvider>
+  </HashRouter>,
 )

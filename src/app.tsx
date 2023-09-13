@@ -8,6 +8,7 @@ import PageLoading from '@/components/PageLoading'
 
 import { injected } from '@/web3/connectors'
 import { LoadingProvider } from '@/components/Loading/LoadingContext'
+import BgCanvas from './components/BgCanvas/BgCanvas'
 
 const CHAINID = Number(process.env.REACT_APP_CHAIN_ID)
 
@@ -57,6 +58,7 @@ function App() {
   }, [account])
   return (
     <LoadingProvider>
+      <BgCanvas backgroundColor={'#010201'} />
       <Suspense fallback={<PageLoading />}>{useRoutes(routes)}</Suspense>
       <Loading />
     </LoadingProvider>
