@@ -43,6 +43,7 @@ function useNumberAnimation(targetNumber: number, animationDuration = 1000, step
  */
 function NumberAnimation(targetNumber: any) {
   // 使用自定义 Hook 获取当前动画的数字
+  if (!targetNumber) targetNumber = 0
   const currentNumber = useNumberAnimation(targetNumber)
 
   return currentNumber

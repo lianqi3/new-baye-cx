@@ -21,7 +21,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',
     'react/react-in-jsx-scope': 'off',
-    camelcase: 'error',
+    camelcase: 'off',
     'spaced-comment': 'error',
     quotes: ['error', 'single'],
     'no-duplicate-imports': 'error',

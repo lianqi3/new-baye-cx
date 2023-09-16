@@ -8,7 +8,7 @@ const request = new Request({
   baseURL: BASE_URL,
   timeout: 50000,
   interceptors: {
-    requestSuccessFn: (config) => {
+    requestSuccessFn: (config: any) => {
       requestCount += 1
       // 过滤掉支付接口
       if (!CONFIG.PAY_URL.includes(config.url as string)) {
@@ -20,13 +20,13 @@ const request = new Request({
       }
       return config
     },
-    requestFailureFn: (config) => {
+    requestFailureFn: (config: any) => {
       setTimeout(() => {
         handler?.close()
       }, CONFIG.NETWORK_WAIT)
       return config
     },
-    responseSuccessFn: (config) => {
+    responseSuccessFn: (config: any) => {
       requestCount -= 1
       if (requestCount === 0) {
         setTimeout(() => {
@@ -35,7 +35,7 @@ const request = new Request({
       }
       return config
     },
-    responseFailureFn: (config) => {
+    responseFailureFn: (config: any) => {
       setTimeout(() => {
         handler?.close()
       }, CONFIG.NETWORK_WAIT)

@@ -28,11 +28,11 @@ export const Notice = styled.div`
   color: #b6debf;
   line-height: 14px;
   ${bgStyle}
-  div {
+  .swiper-box {
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 89%;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -77,6 +77,8 @@ export const Symbols = styled.div`
   margin-top: 24px;
   background-image: url(${SymbolsBg});
   padding: 16px 15px 24px 20px;
+  display: grid;
+  gap: 10px;
   ${bgStyle}
   .th,
   .td {
@@ -86,10 +88,10 @@ export const Symbols = styled.div`
     }
   }
   .th {
+    margin-bottom: 14px;
     font-size: 12px;
     color: #b6debf;
     line-height: 12px;
-    margin-bottom: 24px;
   }
   .td {
     font-size: 14px;
@@ -206,8 +208,8 @@ export const RankList = styled.div`
     ${title}
   }
   .content {
-    padding: 16px 16px 29px;
-    min-height: 280px;
+    padding: 16px 16px 40px;
+    min-height: 260px;
     .th,
     .td {
       ${coinTd}

@@ -18,7 +18,7 @@ const ThreeJSAnimation: React.FC<ThreeJSAnimationProps> = ({ backgroundColor }) 
   const PARTICLE_SIZE = 700
   const SPREAD_RADIUS = 250
   // 减小速度
-  const MAX_SPEED = 0.7 // 调整为较小的值
+  const MAX_SPEED = 0.1 // 调整为较小的值
 
   useEffect(() => {
     let scene: THREE.Object3D<THREE.Object3DEventMap>,
@@ -71,7 +71,7 @@ const ThreeJSAnimation: React.FC<ThreeJSAnimationProps> = ({ backgroundColor }) 
       geo.setAttribute('acceleration', new THREE.Float32BufferAttribute(acceleration, 1))
 
       const mat = new THREE.LineBasicMaterial({
-        color: '#2CB21C',
+        color: '#2D4532',
       })
       stars = new THREE.LineSegments(geo, mat)
 

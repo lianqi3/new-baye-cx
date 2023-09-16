@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 // eslint-disable-next-line no-duplicate-imports
 import type { AxiosInstance } from 'axios'
-import type { RequestConfig } from './type'
+import { Toast } from 'antd-mobile'
 
 class Request {
   instance: AxiosInstance
@@ -13,9 +13,11 @@ class Request {
     this.instance.interceptors.request.use(
       (config) => {
         if (config && config.headers) {
+          config.headers['app-key'] = '123456789'
           config.headers['Content-Type'] = 'application/json'
           config.headers['X-localization'] = window.localStorage.getItem('i18nextLng') || 'zh'
-          config.headers.authorization = window.localStorage.getItem('token') || ''
+          config.headers['User-Token'] = window.localStorage.getItem('token') || ''
+          config.headers['User-Address'] = window.localStorage.getItem('address') || ''
         }
         // loading/token
         return config
@@ -61,21 +63,17 @@ class Request {
       this.instance
         .request<any, any>(config)
         .then((res) => {
+          if (res.msg && res.code !== 1) {
+            Toast.show({
+              content: res.msg,
+            })
+          }
           switch (res.code) {
-            case 0:
-              reject(res)
-              break
             case 1:
               resolve(res)
               break
-            case 2:
-              reject(res)
-              break
-            case -1:
+            case -403:
               window.location.replace('/')
-              reject(res)
-              break
-            case -102:
               reject(res)
               break
             default:
