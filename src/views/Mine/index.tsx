@@ -7,7 +7,6 @@ import { useWeb3React } from '@web3-react/core'
 import { Button, InfiniteScroll, Input, Toast } from 'antd-mobile'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { UploadOutline } from 'antd-mobile-icons'
 import { Content, Fuel, MineContent, MineContentInfo, MineInfo, MinList, Tab } from './styled'
 
 const Mine: React.FC = () => {

@@ -44,6 +44,8 @@ function App() {
   }, [i18n.language])
   // 链接钱包
   useEffect(() => {
+    const { ethereum } = window
+    if (!ethereum) return
     activate(
       injected,
       (err) => {

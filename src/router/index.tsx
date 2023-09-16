@@ -7,6 +7,8 @@ const Assets = lazy(() => import('@/views/Assets'))
 const Withdraw = lazy(() => import('@/views/Withdraw'))
 const MinePool = lazy(() => import('@/views/MinePool'))
 const Invite = lazy(() => import('@/views/Invite'))
+const Notice = lazy(() => import('@/views/Notice'))
+const NoticeDetail = lazy(() => import('@/views/Notice/detail'))
 const Test = lazy(() => import('@/views/Test'))
 const NoFound = lazy(() => import('@/views/NoFound'))
 const routes: RouteObject[] = [
@@ -33,6 +35,14 @@ const routes: RouteObject[] = [
   {
     path: '/Invite',
     element: <Invite />,
+  },
+  {
+    path: '/Notice',
+    element: <Notice />,
+  },
+  {
+    path: '/NoticeDetail',
+    element: <NoticeDetail />,
   },
   {
     path: '/test',

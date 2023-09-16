@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react'
 import { Content, Menu, Notice, Overview, RankList, Symbols } from './styled'
 import { useTranslation } from 'react-i18next'
 import NavBar from '@/components/NavBar/NavBar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Swiper } from 'antd-mobile'
 import mainStore from '@/store'
 
@@ -18,6 +18,7 @@ const Home: React.FC = () => {
     fuelList,
   } = mainStore()
   const { i18n, t } = useTranslation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     getNoticeList()
@@ -39,7 +40,7 @@ const Home: React.FC = () => {
                 return <Swiper.Item key={index}>{item.title}</Swiper.Item>
               })}
             </Swiper>
-            <img src={require('@/static/notice-list.png')} />
+            <img onClick={() => navigate('/Notice')} src={require('@/static/notice-list.png')} />
           </div>
         </Notice>
         <Menu>
