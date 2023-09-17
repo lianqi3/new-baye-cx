@@ -46,7 +46,7 @@ function NumberAnimation(targetNumber: any) {
   if (!targetNumber) targetNumber = 0
   const currentNumber = useNumberAnimation(targetNumber)
 
-  return currentNumber
+  return decimal(currentNumber, 2)
 }
 
 export default NumberAnimation

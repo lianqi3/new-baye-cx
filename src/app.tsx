@@ -1,5 +1,5 @@
 import React, { useEffect, Suspense, useState } from 'react'
-import { useLocation, useRoutes } from 'react-router-dom'
+import { useLocation, useRoutes, useSearchParams } from 'react-router-dom'
 import routes from '@/router'
 import { useWeb3React } from '@web3-react/core'
 import { changeNetwork } from '@/web3'
@@ -62,8 +62,6 @@ function App() {
   }, [chainId])
 
   useEffect(() => {
-    console.log(isBindCode)
-
     if (isBindCode) {
       setShowPopup(true)
     } else {
@@ -92,6 +90,8 @@ function App() {
 
   useEffect(() => {
     const value = params.get('code')
+    console.log(value)
+
     if (value) {
       setCode(value)
     }
@@ -110,6 +110,8 @@ function App() {
     })
     if (account) {
       localStorage.setItem('address', account)
+      console.log(code)
+
       login({
         referee: code,
         user_address: account,

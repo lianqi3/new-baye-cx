@@ -1,12 +1,23 @@
 import NavBar from '@/components/NavBar/NavBar'
 import NumberAnimation from '@/utils/numberAnimation'
-import { Button } from 'antd-mobile'
-import { useState } from 'react'
+import { Button, InfiniteScroll } from 'antd-mobile'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AssetsInfo, Content, List } from './styled'
+import store from '@/store/assets'
 
 const Mine: React.FC = () => {
   const navigate = useNavigate()
+  const { getAssetsInfo, assetsInfo, getAssetsList, loadMore, hasMore, dataList } = store()
+
+  useEffect(() => {
+    init()
+  }, [])
+
+  function init() {
+    getAssetsInfo()
+    getAssetsList()
+  }
   return (
     <div>
       <NavBar title='资产' />
@@ -15,26 +26,26 @@ const Mine: React.FC = () => {
           <div className='topBox'>
             <div className='left'>
               <div>总资产(BAYE)</div>
-              <div className='num'>{NumberAnimation('65654984.0000')}</div>
+              <div className='num'>{NumberAnimation(assetsInfo?.balance)}</div>
             </div>
             <img className='right' src={require('@/static/mask.png')} />
           </div>
           <div className='bottomBox'>
             <div>
               累计收益(BAYE)
-              <span>{NumberAnimation('4984.00')}</span>
+              <span>{NumberAnimation(assetsInfo?.total)}</span>
             </div>
             <div>
               昨日收益(BAYE)
-              <span>{NumberAnimation('4984.00')}</span>
+              <span>{NumberAnimation(assetsInfo?.yester)}</span>
             </div>
             <div>
               剩余燃料(USDT)
-              <span>{NumberAnimation('4984.00')}</span>
+              <span>{NumberAnimation(assetsInfo?.residual_income)}</span>
             </div>
           </div>
         </AssetsInfo>
-        <Button className='btn' onClick={() => navigate('/Withdraw')}>
+        <Button className='btn' onClick={() => navigate(`/Withdraw?id=${assetsInfo?.id}`)}>
           提币
         </Button>
         <List>
@@ -45,11 +56,16 @@ const Mine: React.FC = () => {
               <div>数量(BAYE)</div>
               <div>类型</div>
             </div>
-            <div className='td'>
-              <div>2023/09/07 13:25:36</div>
-              <div>+685.92</div>
-              <div>收益</div>
-            </div>
+            {dataList.map((item, index) => {
+              return (
+                <div className='td' key={index}>
+                  <div>{item.add_time_text}</div>
+                  <div>{item.money}</div>
+                  <div>{item.messages}</div>
+                </div>
+              )
+            })}
+            <InfiniteScroll loadMore={() => loadMore()} hasMore={hasMore} threshold={40} />
           </div>
         </List>
       </Content>

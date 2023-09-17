@@ -11,8 +11,6 @@ const request = new Request({
     requestSuccessFn: (config: any) => {
       requestCount += 1
       // 过滤掉支付接口
-      console.log(!CONFIG.PAY_URL.includes(config.url as string))
-
       if (!CONFIG.PAY_URL.includes(config.url as string)) {
         handler = Toast.show({
           icon: 'loading',

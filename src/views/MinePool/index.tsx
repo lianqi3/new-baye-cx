@@ -1,9 +1,21 @@
 import NavBar from '@/components/NavBar/NavBar'
-import { useState } from 'react'
+import store from '@/store/minePool'
+import { InfiniteScroll } from 'antd-mobile'
+import { useEffect, useState } from 'react'
 import { Content, List, PoolBox, PoolTab } from './styled'
 
 const MinePool: React.FC = () => {
   const [tabIndex, setTabIndex] = useState(0)
+  const { getDataInfo, dataInfo, getDataList, dataList, loadMore, hasMore } = store()
+
+  useEffect(() => {
+    getDataInfo()
+  }, [])
+
+  useEffect(() => {
+    getDataList(tabIndex)
+  }, [tabIndex])
+
   return (
     <>
       <NavBar title='矿池' />
@@ -11,25 +23,25 @@ const MinePool: React.FC = () => {
         <PoolBox>
           <div className='topBox'>
             <div className='left'>
-              当前等级<span>LV.1</span>
+              当前等级<span>{dataInfo?.mini_group}</span>
             </div>
             <img className='right' src={require('@/static/mask.png')} />
           </div>
           <div className='bottomBox'>
             <div>
-              云算力数量<span>4984</span>
+              云算力数量<span>{dataInfo?.total}</span>
             </div>
             <div>
-              映射算力<span>4984</span>
+              映射算力<span>{dataInfo?.ys_suanli}</span>
             </div>
             <div>
-              共识算力<span>4984</span>
+              共识算力<span>{dataInfo?.gs_suanli}</span>
             </div>
             <div>
-              矿池质押<span>4984</span>
+              矿池质押<span>{dataInfo?.zy_money}</span>
             </div>
             <div>
-              矿池算力<span>4984</span>
+              矿池算力<span>{dataInfo?.suanli}</span>
             </div>
           </div>
         </PoolBox>
@@ -49,12 +61,17 @@ const MinePool: React.FC = () => {
               <div>质押(BAYE)</div>
               <div>算力(CU)</div>
             </div>
-            <div className='td'>
-              <div>2023/09/07 13:25:36</div>
-              <div>0x92****4 4bd06</div>
-              <div>68592</div>
-              <div>68365.00</div>
-            </div>
+            {dataList.map((res, index) => {
+              return (
+                <div className='td' key={index}>
+                  <div>{res.create_time}</div>
+                  <div>{res.address}</div>
+                  <div>{res.zy_money}</div>
+                  <div>{res.suanli}</div>
+                </div>
+              )
+            })}
+            <InfiniteScroll loadMore={() => loadMore(tabIndex)} hasMore={hasMore} threshold={40} />
           </div>
         </List>
       </Content>

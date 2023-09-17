@@ -2,6 +2,7 @@ import NavBar from '@/components/NavBar/NavBar'
 import ProgressBar from '@/components/Progress/Progress'
 import useContract from '@/hooks/useContract'
 import mineStore from '@/store/mine'
+import { decimal } from '@/utils'
 import NumberAnimation from '@/utils/numberAnimation'
 import { useWeb3React } from '@web3-react/core'
 import { Button, InfiniteScroll, Input, Toast } from 'antd-mobile'
@@ -37,7 +38,7 @@ const Mine: React.FC = () => {
 
   useEffect(() => {
     getMining(CHAINID)
-    getDataList(tabIndex)
+    getDataList()
   }, [isReset])
 
   useEffect(() => {
@@ -45,9 +46,9 @@ const Mine: React.FC = () => {
       getBalance(mineData.money_type_info.usdt).then((res: any) => {
         setUstdBalance(res.TokenAmount)
       })
-      // getBalance(mineData.money_type_info.baye).then((res: any) => {
-      //   setBayeBalance(res.TokenAmount)
-      // })
+      getBalance(mineData.money_type_info.baye).then((res: any) => {
+        setBayeBalance(res.TokenAmount)
+      })
     }
   }, [mineData])
 
@@ -94,7 +95,7 @@ const Mine: React.FC = () => {
     })
       .then(() => {
         setTimeout(() => {
-          setReset(true)
+          setReset(!isReset)
           loading.close()
           setDisabled(false)
           Toast.show({
@@ -161,20 +162,55 @@ const Mine: React.FC = () => {
         </Tab>
         <MineContent>
           <div className='mineInput'>
-            <Input
-              className='input'
-              value={value}
-              onChange={(val) => setValue(val)}
-              placeholder={
-                tabIndex === 1
-                  ? '请输入购买矿机CU数'
-                  : tabIndex === 2
-                  ? '请输入激活CU数'
-                  : '请输入BAYE数量'
-              }
-              type='number'
-            />
-            <div className='all'>{tabIndex === 3 ? '全部' : 'CU'}</div>
+            {tabIndex === 1 ? (
+              <Input
+                className='input'
+                value={value}
+                onChange={(val) => setValue(val)}
+                placeholder='请输入购买矿机CU数'
+                type='number'
+              />
+            ) : tabIndex === 2 ? (
+              <Input
+                className='input'
+                value={value}
+                onChange={(val) => {
+                  if (Number(val) > Number(mineData?.no_cu) && mineData?.no_cu) {
+                    setValue(decimal(mineData?.no_cu, 2).toString())
+                    return
+                  }
+                  setValue(val)
+                }}
+                placeholder='请输入激活CU数'
+                type='number'
+                max={Number(mineData?.no_cu)}
+              />
+            ) : (
+              <Input
+                className='input'
+                value={value}
+                onChange={(val) => {
+                  if (Number(val) > Number(transConfig?.token) && transConfig?.token) {
+                    setValue(decimal(transConfig?.token, 2).toString())
+                    return
+                  }
+                  setValue(val)
+                }}
+                placeholder='请输入BAYE数量'
+                type='number'
+              />
+            )}
+            <div
+              className='all'
+              onClick={() => {
+                if (tabIndex === 3 && transConfig?.token) {
+                  if (Number(bayeBalance) <= Number(transConfig?.token)) setValue(bayeBalance)
+                  else setValue(decimal(transConfig?.token, 2).toString())
+                }
+              }}
+            >
+              {tabIndex === 3 ? '全部' : 'CU'}
+            </div>
           </div>
           {tabIndex === 1 ? (
             <MineContentInfo>
@@ -182,7 +218,7 @@ const Mine: React.FC = () => {
                 当前可用:<span>{ustdBalance} USDT</span>
               </div>
               <div>
-                预计支付:<span>{transConfig?.usdt} USDT</span>
+                预计支付:<span>{transConfig?.token} USDT</span>
               </div>
               {/* <div>
               当前可用:<span>0.00 USDT</span>
@@ -199,8 +235,8 @@ const Mine: React.FC = () => {
               <div>
                 预计支付:
                 <span className='unit-box'>
-                  0.00 BAYE
-                  <span>≈0.00 USDT</span>
+                  {transConfig?.token} {transConfig?.coin_name}
+                  <span>≈{transConfig?.usdt} USDT</span>
                 </span>
               </div>
             </MineContentInfo>
@@ -234,7 +270,7 @@ const Mine: React.FC = () => {
                 </div>
               )
             })}
-            <InfiniteScroll loadMore={() => loadMore(tabIndex)} hasMore={hasMore} threshold={40} />
+            <InfiniteScroll loadMore={() => loadMore()} hasMore={hasMore} threshold={40} />
           </div>
         </MinList>
       </Content>

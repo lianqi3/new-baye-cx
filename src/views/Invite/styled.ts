@@ -44,8 +44,17 @@ export const InviteInfo = styled.div`
   padding: 13px 12px;
   background-image: url(${InfoBg});
   ${bgStyle}
+  div {
+    display: flex;
+    align-items: center;
+  }
   span {
+    display: block;
+    width: 70%;
     margin-left: 16px;
+    white-space: nowrap; /* 防止文本换行 */
+    overflow: hidden; /* 隐藏溢出的文本 */
+    text-overflow: ellipsis; /* 显示省略号 */
   }
   img {
     width: 24px;

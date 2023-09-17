@@ -25,8 +25,81 @@ interface MineStore {
   hasMore: boolean
   getMining: (chain: number) => Promise<void>
   getTransInfo: (config: TransQuery) => Promise<void>
-  getDataList: (order_type: number) => Promise<void>
-  loadMore: (index: number) => Promise<void>
+  getDataList: (isLoad?: boolean) => Promise<void>
+  loadMore: () => Promise<void>
+}
+
+interface AssetsStore {
+  assetsInfo: Assets | null
+  dataList: AssetsDatas[]
+  page: number
+  hasMore: boolean
+  withdrawInfo: WithdrawInfo | null
+  getAssetsInfo: () => Promise<void>
+  getAssetsList: (isLoad?: boolean) => Promise<void>
+  loadMore: () => Promise<void>
+  getWithdrawInfo: (id: number) => Promise<void>
+  withdraw: (param: withdrawParam) => Promise<void>
+}
+
+interface MinePoolStore {
+  dataInfo: MinePoolInfo | null
+  dataList: MinePoolList[]
+  page: number
+  hasMore: boolean
+  getDataInfo: () => Promise<void>
+  loadMore: (type: number) => Promise<void>
+  getDataList: (type: number, isLoad?: boolean) => Promise<void>
+}
+
+interface MinePoolList {
+  user_id: number
+  create_time: string
+  address: string
+  suanli: number // 算力
+  zy_money: number // 质押BAYE
+}
+
+interface MinePoolInfo {
+  invite_url: string // 邀请链接
+  invite_qr_code: string // 邀请码
+  gs_suanli: number // 共识算力
+  ys_suanli: number // 映射算力
+  total: number // 云算力数量
+  zy_money: number // 矿池质押
+  suanli: number // 矿池算力
+  mini_group: string // 等级
+}
+
+interface withdrawParam {
+  money: string
+  money_type: string
+}
+
+interface Assets {
+  id: number // 币种ID （提现需要传）
+  icon: string // 币种图标
+  en_name: string
+  balance: number // 余额
+  yester: number // 昨日收益BAYE
+  total: number // 累计收益BAYE
+  residual_income: number // 剩余收益USDT
+}
+interface AssetsDatas {
+  add_time_text: string // 时间
+  money: string // 变动金额
+  messages: string // 类型
+}
+
+interface WithdrawInfo {
+  is_atm: number // 1允许提现0不允许提现
+  name: string
+  cn_name: string // 币种名称
+  contract_address: string // 合约地址
+  wallet_address: string // 收款钱包
+  is_transfer: number // 1转账
+  balance: number // 余额
+  usd_balance: string // 余额折合USDT
 }
 
 interface MineList {
